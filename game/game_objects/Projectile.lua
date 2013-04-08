@@ -31,9 +31,7 @@ function Projectile:collisionEnemy(enemy)
         end
 
         if self.dot then
-            self.chrono:every(self.dot.tick, self.dot.times, function() 
-                beholder.trigger('HP DECREASE' .. enemy.id, self.dot.damage)
-            end)
+            enemy:setDot(self.dot.interval, self.dot.times, self.dot.damage)
         end
 
         if self.pierce then
@@ -42,7 +40,7 @@ function Projectile:collisionEnemy(enemy)
         end
 
         if self.slow then
-            enemy:setSlow(self.slow.value, self.slow.duration)
+            enemy:setSlow(self.slow.percentage, self.slow.duration)
         end
 
         if self.stun then

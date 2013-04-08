@@ -1,12 +1,15 @@
 Logic = {
     logicInit = function(self, hp)
         self.hp = hp
+        self.dotted = false
+        self.dotted_cid = nil
         self.slowed = false
         self.slowed_cid = nil
         self.stunned = false
         self.stunned_cid = nil
 
         beholder.observe('HP DECREASE' .. self.id, function(damage)
+            print(self.hp)
             self.hp = self.hp - damage
             if self.hp <= 0 then self.dead = true end
         end)
@@ -44,6 +47,21 @@ Logic = {
                 self.stunned = false
                 self.can_move = true
             end).id
+        end
+    end,
+
+    setDot = function(self, interval, times, damage)
+        if not self.dotted then
+            self.dotted = true
+            self.dotted_cid = self.chrono:every(interval, times, function()
+                beholder.trigger('HP DECREASE' .. self.id, damage)
+            end):after(interval*times, function() self.dotted = false end).id
+        else
+            self.dotted = true
+            self.chrono:cancel(self.dotted_cid)
+            self.dotted_cid = self.chrono:every(interval, times, function()
+                beholder.trigger('HP DECREASE' .. self.id, damage)
+            end):after(interval*times, function() self.dotted = false end).id
         end
     end,
 

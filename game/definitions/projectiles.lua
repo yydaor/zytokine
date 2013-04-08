@@ -11,7 +11,4 @@ function loadProjectiles()
     projectiles_movement['decelerating']['default'] = projectile_movement(2*PROJECTILE_V, 0, -1000)
     projectiles_movement['boomerang'] = {}
     projectiles_movement['boomerang']['default'] = projectile_movement(PROJECTILE_V, -PROJECTILE_V, -1000)
-
-    dot = struct('tick', 'times', 'damage')
-    slow = struct('value', 'duration')
 end
