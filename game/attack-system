@@ -1,0 +1,186 @@
+Area - 
+    Types: [Single]
+        Cone: ARC around an ANGLE starting from a POINT up to a certain DISTANCE
+        Circle: RADIUS around a POINT
+        Rectangle: WIDTH and HEIGHT centered by a POINT
+
+    Movement: [Single]
+        Normal: constant velocity
+        Accelerating: velocity starts low and goes up until a LIMIT
+        Decelerating: velocity starts high and goes down until a LIMIT or until TIME runs out
+        Boomerang: hits a target or travels a certain DISTANCE or TIME and comes back to SELF
+
+    Modifiers: [Multiple]
+        Instant damage: deals damage to targets inside area
+        DoT: deals damage to targets inside area over time (ticks)
+        Duration: how long the area will be up for
+        Size: the area size
+        Slow: slows targets inside area
+        Stun: stuns targets inside area
+        Explosion: damages targets inside size-increasing area
+        Knockback: knocks entities back according to how far away they are from the center of the area
+        Closest: ignores all targets except the closest one
+        Mask: selects which types of entities the Area effect applies to
+
+Projectile -
+    Movement: [Single]
+        Normal: constant velocity
+        Accelerating: velocity starts low and goes up until a LIMIT
+        Decelerating: velocity starts high and goes down until a LIMIT or until TIME runs out
+        Boomerang: hits a target or travels a certain DISTANCE or TIME and comes back to SELF
+
+    Modifiers: [Multiple]
+        Instant damage: deals damage on contact
+        DoT: deals damage over time after contact
+        Area: applies [Area] when possible
+        Line: not a projectile but a line/laser
+        Multiple: adds N projectiles
+        Pierce: pierces; ignores target hit rules 
+        Fork: forks on contact creating N extra projectiles
+        Chain: bounces to next closest enemy up to N times
+        Back: additional N projectiles from opposite direction
+        Mine: sticks to target/solids and doesn't explode until contact with enemies
+        Fuse: sticks to target and explodes after N seconds; doesn't work with Chain, Fork, Pierce
+        Gravity: gravity applies
+        Reflecting: reflects N times on contact with solids
+        Seek: travels towards the closest entity
+        Knockback: knocks entities back on contact
+        Slow: slows target on contact for N seconds
+        Stun: stuns target on contact for N seconds
+
+Self/Global -
+    Movement: [Single]
+        Dash: moves forward towards current direction with massively increased velocity
+
+    Modifiers: [Multiple]
+        Area: applies [Area] when possible with POINT as self 
+        Buff: buff lasts N seconds and changes some stat accordingly
+
+Activation -
+    Direct: uses SKILL PRESS on key press
+    Hold: uses SKILL DOWN on key down
+    Hold -> Release: uses SKILL PRESS on key press, uses SKILL DOWN on key down, uses SKILL RELEASE on key release
+    Toggle: toggles SKILL USE on key press
+    Passive: always on
+
+Combinations -
+Area, Projectile, Self: submethod.
+Area-Projectile: area applied on contact with Solid or Enemy.
+Area-Self: area applied with self as POINT.
+Projectile-Self: only when possible (orbit) 
+Area-Projectile-Self: area applied with projectile's position as POINT.
+
+An attack needs to have an Activation method AND at least one of Area, Projectile or Self (APS) methods.
+APS methods can be combined in specific ways given the submethods chosen (Types, Movement and Modifiers)
+and most of the time should work well with each other. Some submethods, though, may disable another APS submethod
+or method entirely. For instance, taking the Projectile-Self combination will disable most submethods for both
+methods, considering that it only makes sense to have the [Orbit] Projectile movement submethod work with the
+Self method (since the player will be the chosen Point). On the other hand, taking the Projectile-Area combination
+will work for most submethods since the combination applies the area on projectile contact with an enemy or solid.
+
+Possible skill point combinations -
+    Element = fire, water, lightning, wind, earth
+    Not element = void
+
+    Instant [element] flat added damage, instant [element] percent increased damage
+    DoT [element] flat added damage, DoT [element] percent increased damage (only fire can actually be DoT)
+    Condition [element] flat added chance, condition [element] percent increased chance
+    Condition [element] flat increased duration, condition [element] percent increased duration
+    Percent increased [element weakness] damage (if burning, water deals double, if this is 100%, water will deal quadruple)
+    Elemental Mastery - master of one element, highly increased bonuses for that element
+    Elemental Knowledge - knows about all elements, masters none, increased bonuses for all elements
+    Elemental Archmage - requires Elemental Mastery and Knowledge, massively increased bonuses for all elements
+    Elemental Remains - projectile elemental collision with solids leaves a condition triggering area to nearby enemies
+    Elemental Proliferation - enemies affected by an elemental condition have a chance of passing the condition to nearby enemies
+    Elemental Equilibrium - skills with more than one element will increase/decrease each other element's damage
+    Elemental Conditioning - highly increased condition triggering chance for a particular element (both passive and active)
+    Void Mastery - relinquish all elemental nodes for increased non elemental damage
+    Void Vulnerability - enemy cannot be affected by elemental damage or conditions, takes double void damage 
+    Disintegrate - enemies die instantly on contact
+
+    Multiple Projectiles [n, max=8]
+    Flat cone radius increase, flat cone radius decrease 
+    Multiple Instability - projectiles are shot in random directions
+    Lesser Multiple Projectiles - halves damage, doubles number of multiple projectiles
+    Greater Multiple Projectiles - halves damage, triples number of multiple projectiles
+    Concentrated Multiple Projectiles - doubles damage, halves number of projectiles and cone radius
+
+    Pierce [n, max=8]
+    Percent increased damage with each pierce, percent reduced damage with each pierce
+    Pierce the Heavens - pierces an infinite number of enemies
+
+    Fork [n, max=2]
+    Flat cone radius increase, flat code radius decrease
+    Fork Instability - forks projectiles in random directions
+    Forks Fork - forked projectiles fork once more
+
+    Chain [n, max=8]
+    Flat added trigger radius, percent increased trigger radius
+    Unchained - chains an infinite number of times
+
+    Back [n, max=2]
+
+    Mine (applies lower projectile definitions on trigger (damage, fork, chain, pierce, ...); applies higher projectile definitions on mine creation (multiple, back))
+    Flat added trigger radius, flat removed trigger radius
+    Percent increased trigger radius, percent decreased trigger radius
+    Mine Combination - this mine can have other skills added that will be triggered on contact
+
+    Fuse [n, max=5]
+    Flat added explosion radius, flat removed explosion radius
+    Percent increased explosion radius, percent decreased explosion radius
+    Delayed Reward - higher triggering delay, higher damage
+
+    Gravity
+
+    Reflecting [n, max=8]
+    Percent increased velocity with each reflection, perfect reduced velocity with each reflection
+    Reflection Instability - reflects projectiles in random directions
+    Solid Reflections - projectiles can fork on solids
+
+    Seek
+    Percent increased turning speed, percent removed turning speed
+    Avoidant Behavior - projectile avoids all solids and enemies
+
+    Knockback
+    Flat added knockback force, flat removed knockback force
+    Percent increased knockback force, percent decreased knockback force
+    Flat added knockback radius, flat removed knockback radius
+    Percent increased knockback radius, percent decreased knockback radius
+
+    Explosion
+    Flat added radius size, flat removed radius size
+    Percent increased radius size, percent decreased radius size
+    Percent increased radius increase velocity, percent decreased radius increase velocity
+
+    Closest [n, max=8]
+
+    Slow [n=%]
+    Flat increased duration
+    Percent increased duration, percent decreased duration
+    Percent increased slow value, percent decreased slow value
+
+    Stun [n=s]
+    Flat increased duration
+    Percent increased duration, percent decreased duration
+
+    Buff
+    Flat increased buff duration
+    Percent increased buff duration, percent decreased buff duration
+    Percent increased buff effect, percent decreased buff effect
+    Invulnerability - invulnerable
+    Invisibility - invisible
+    Add HP - increases HP
+    Remove HP - decreases HP
+    Flat added movement speed, flat removed movement speed
+    Percent increased movement speed, percent decreased movement speed
+    Flat added cooldown reduction, flat removed cooldown reduction
+    Percent increased cooldown reduction, percent decreased cooldown reduction
+    Flat added chance of dodging
+    Percent increased chance of dodging, percent decreased chance of dodging
+    Flat added invulnerability hit timer duration, flat removed invulnerability hit timer duration
+    Percent increased invulnerability hit timer duration, percent decreaesd invulnerability hit timer duration
+
+    Special Attacks
+    Time Shift - slows down time for everything else
+    Crucio - deals some damage taken back to enemies
+
