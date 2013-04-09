@@ -63,14 +63,17 @@ function Projectile:collisionEnemy(enemy)
 
             if self.fork == 'up' then
                 local xh, yh = enemy.p.x + math.cos(angle)*enemy.w, enemy.p.y + math.sin(angle)*enemy.h 
-                local xu, yu = enemy.p.x, enemy.p.y + math.sin(angle-math.pi/2)*enemy.h
                 -- left + 90 = down
                 -- right + 90 = up
                 -- left shots don't fork when fork = up
                 beholder.trigger('CREATE PROJECTILE', xh, yh, angle,
                                  'normal', 'default', table.keyRemove(self.projectile_modifier, 'fork'))
-                beholder.trigger('CREATE PROJECTILE', xu, yu, angle-math.pi/2,
+                if angleToDirection(angle) == 'right' then angle = angle-math.pi/2
+                elseif angleToDirection(angle) == 'left' then angle = angle+math.pi/2 end
+                local xu, yu = enemy.p.x, enemy.p.y + math.sin(angle)*enemy.h
+                beholder.trigger('CREATE PROJECTILE', xu, yu, angle,
                                  'normal', 'default', table.keyRemove(self.projectile_modifier, 'fork'))
+
             elseif self.fork == 'horizontal' then
                 local x, y = enemy.p.x + math.cos(angle)*enemy.w, enemy.p.y + math.sin(angle)*enemy.h
                 beholder.trigger('CREATE PROJECTILE', x, y, angle-SPREAD_ANGLE*2,

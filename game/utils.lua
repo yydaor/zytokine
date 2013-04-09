@@ -112,6 +112,12 @@ function math.between(n, min, max)
     if n >= min and n <= max then return true else return false end
 end
 
+function angleToDirection(r)
+    if math.between(r, 0, math.pi/2) or math.between(r, 0, -math.pi/2) then return 'right'
+    elseif math.between(r, math.pi, math.pi+math.pi/2) or 
+           math.between(r, math.pi, math.pi-math.pi/2) then return 'left'
+    end
+end
 
 function dice(chance)
     local r = math.random(1, 1000)
