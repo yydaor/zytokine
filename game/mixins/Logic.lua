@@ -70,6 +70,8 @@ Logic = {
         -- Screen pass through
         if y >= 544 then 
             self.body:setY(-32)
+        elseif y <= -32 then 
+            self.body:setY(544)
         end
     end
 }
