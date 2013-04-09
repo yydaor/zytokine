@@ -61,11 +61,15 @@ function Level:initialize(name)
         self.camera_shake:add(intensity, duration)
     end)
 
-    beholder.observe('PARTICLE SPAWN', function(name, proj, dir)
+    beholder.observe('PROJECTILE PARTICLE SPAWN', function(name, proj, dir)
         self.particle:spawn(name, {position = {x = proj.p.x, y = proj.p.y}, 
                                    direction = math.pi-proj.r,
                                    dir = dir,
                                    wh = {w = proj.w, h = proj.h}})
+    end)
+
+    beholder.observe('ITEMGET PARTICLE SPAWN', function(name, x, y)
+        self.particle:spawn(name, {position = {x = x, y = y}})
     end)
 end
 

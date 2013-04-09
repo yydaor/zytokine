@@ -90,7 +90,7 @@ end
 function Particle:update(dt)
     for i, p in ipairs(self.particle_systems) do
         p.ps:update(dt)
-        if not p.ps:isActive() then
+        if p.ps:isEmpty() then
             table.insert(self.to_be_removed, p.id)
         end
     end

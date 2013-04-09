@@ -18,7 +18,7 @@ function Projectile:collisionSolid(solid, nx, ny)
     elseif ny < 0 and nx == 0 then dir = 'up'
     elseif ny > 0 and nx == 0 then dir = 'down' end
 
-    beholder.trigger('PARTICLE SPAWN', 'ProjWallHit', self, dir)
+    beholder.trigger('PROJECTILE PARTICLE SPAWN', 'ProjWallHit', self, dir)
 
     if self.reflecting then 
         self.reflecting = self.reflecting - 1
