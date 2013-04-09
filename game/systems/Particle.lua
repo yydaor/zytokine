@@ -30,9 +30,16 @@ function Particle:set(id, settings)
             if k == 'position' then 
                 ps.x = v.x
                 ps.y = v.y
+                
             
             elseif k == 'direction' then
                 ps.ps:setDirection(v)
+            end
+        end
+
+        if settings.dir then
+            if settings.dir == 'right' then
+                ps.x = ps.x - settings.wh.w
             end
         end
     end

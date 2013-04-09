@@ -12,11 +12,18 @@ function Projectile:initialize(chrono, world, x, y, angle, projectile_movement_t
 end
 
 function Projectile:collisionSolid(solid, nx, ny)
-    beholder.trigger('PARTICLE SPAWN', 'ProjWallHitGrav', self.p.x, self.p.y, math.pi-self.r)
+    local dir = nil
+    if nx < 0 and ny == 0 then dir = 'left'
+    elseif nx > 0 and ny == 0 then dir = 'right'
+    elseif ny < 0 and nx == 0 then dir = 'up'
+    elseif ny > 0 and nx == 0 then dir = 'down' end
+
+    beholder.trigger('PARTICLE SPAWN', 'ProjWallHit', self, dir)
+
     if self.reflecting then 
         self.reflecting = self.reflecting - 1
-        if nx < 0 or nx > 0 and ny == 0 then self.r = math.pi - self.r 
-        elseif ny < 0 or ny > 0 and nx == 0 then self.r = -self.r end
+        if dir == 'left' or dir == 'right' then self.r = math.pi - self.r 
+        elseif dir == 'up' or dir == 'down' then self.r = -self.r end
         if self.reflecting <= 0 then self.reflecting = nil end
     end
 
