@@ -61,8 +61,8 @@ function Level:initialize(name)
         self.camera_shake:add(intensity, duration)
     end)
 
-    beholder.observe('PARTICLE SPAWN', function(name, x, y)
-        self.particle:spawn(name, {position = {x = x, y = y}})
+    beholder.observe('PARTICLE SPAWN', function(name, x, y, angle)
+        self.particle:spawn(name, {position = {x = x, y = y}, direction = angle})
     end)
 end
 

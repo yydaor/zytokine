@@ -22,13 +22,17 @@ function Particle:findTemplateByName(name)
 end
 
 function Particle:set(id, settings)
+    local ps = self.particle_systems[findIndexByID(self.particle_systems, id)]
     if settings then
         for k, v in pairs(settings) do
             -- if k == 'rotation' then self.particle_systems[findIndexByID(..., id)].ps:setRotation(settings.rotation) end
             -- add particle parameters as needed
             if k == 'position' then 
-                self.particle_systems[findIndexByID(self.particle_systems, id)].x = v.x
-                self.particle_systems[findIndexByID(self.particle_systems, id)].y = v.y
+                ps.x = v.x
+                ps.y = v.y
+            
+            elseif k == 'direction' then
+                ps.ps:setDirection(v)
             end
         end
     end

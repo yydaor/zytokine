@@ -12,7 +12,7 @@ function Projectile:initialize(chrono, world, x, y, angle, projectile_movement_t
 end
 
 function Projectile:collisionSolid(solid, nx, ny)
-    beholder.trigger('PARTICLE SPAWN', 'ProjWallHitGrav', self.p.x, self.p.y)
+    beholder.trigger('PARTICLE SPAWN', 'ProjWallHitGrav', self.p.x, self.p.y, math.pi-self.r)
     if self.reflecting then 
         self.reflecting = self.reflecting - 1
         if nx < 0 or nx > 0 and ny == 0 then self.r = math.pi - self.r 

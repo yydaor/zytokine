@@ -4,7 +4,7 @@ function loadAttacks()
 
     local attack = struct('name', 'activation', 'areas', 'projectiles', 'selfs')
     attacks = {}
-    attacks['normal'] = attack('1 projectile', 'press', nil, {}, nil)
+    attacks['normal'] = attack('1 projectile', 'press', nil, {reflecting = 5}, nil)
 
     attack_list = {}
     table.insert(attack_list, attacks.normal)
