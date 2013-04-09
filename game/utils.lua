@@ -113,9 +113,9 @@ function math.between(n, min, max)
 end
 
 function angleToDirection(r)
-    if math.between(r, 0, math.pi/2) or math.between(r, 0, -math.pi/2) then return 'right'
+    if math.between(r, 0, math.pi/2) or math.between(r, -math.pi/2, 0) then return 'right'
     elseif math.between(r, math.pi, math.pi+math.pi/2) or 
-           math.between(r, math.pi, math.pi-math.pi/2) then return 'left'
+           math.between(r, math.pi-math.pi/2, math.pi) then return 'left'
     end
 end
 
