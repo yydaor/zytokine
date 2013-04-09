@@ -70,6 +70,35 @@ function table.choose(choices)
     return choices[math.random(1, #choices)]
 end
 
+function table.copy(t)
+    local copy
+    if type(t) == 'table' then
+        copy = {}
+        for k, v in next, t, nil do
+            copy[table.copy(k)] = table.copy(v)
+        end
+        setmetatable(copy, table.copy(getmetatable(t)))
+    else copy = t end
+    return copy
+end
+
+function tableToString(table)
+    local str = "{"
+    for k, v in pairs(table) do
+        if type(k) ~= "number" then str = str .. k .. " = " end
+        if type(v) == "number" or type(v) == "boolean" then str = str .. tostring(v) .. ", "
+        elseif type(v) == "string" then str = str .. "'" .. v .. "'" .. ", "
+        elseif type(v) == "table" then str = str .. tableToString(v) .. ", " end
+    end
+    if #table > 0 then str = string.sub(str, 1, -3) end
+    str = str .. "}"
+    return str
+end
+
+function degToRad(d)
+    return d*math.pi/180
+end
+
 function math.prandom(min, max)
     return math.random(min*1000, max*1000)/1000
 end

@@ -60,6 +60,12 @@ function loadGlobals()
     GAME_WIDTH = 800*scale
     GAME_HEIGHT = 512*scale
 
+    -- Images
+    square = love.graphics.newImage('resources/square.png')
+
+    -- PSOs
+    main_pso = 'resources/Zytokine.pso'
+
     -- ID
     uid = 0
     getUID = function() uid = uid + 1; return uid end

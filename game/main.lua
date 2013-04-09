@@ -16,8 +16,6 @@ function initialize()
     beholder.observe('TRANSITION', function(to) current_state = state[to] end)
 end
 
---
-
 function love.load()
     initialize()
 end

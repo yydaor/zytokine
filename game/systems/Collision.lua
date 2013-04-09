@@ -1,3 +1,5 @@
+-- Doesn't need to be a class.
+
 Collision = class('Collision')
 
 function Collision:initialize()
@@ -51,8 +53,4 @@ function Collision.onExit(fixture_a, fixture_b, contact)
     elseif not (fixture_a:isSensor() or fixture_b:isSensor()) then
         beholder.trigger('COLLISION EXIT' .. a.id, nx, ny)
     end
-end
-
-function Collision:update(dt)
-    
 end

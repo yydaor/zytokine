@@ -1,6 +1,7 @@
 require 'systems/Collision'
 require 'systems/Spawner'
 require 'systems/CameraShake'
+require 'systems/Particle'
 
 Level = class('Level')
 
@@ -13,6 +14,7 @@ function Level:initialize(name)
     self.spawner = nil
     self.camera = Camera(GAME_WIDTH/2, GAME_HEIGHT/2)
     self.camera_shake = CameraShake(self.camera)
+    self.particle = Particle()
     
     -- Physics
     love.physics.setMeter(PHYSICS_METER)
@@ -58,11 +60,16 @@ function Level:initialize(name)
     beholder.observe('SHAKE', function(intensity, duration)
         self.camera_shake:add(intensity, duration)
     end)
+
+    beholder.observe('PARTICLE SPAWN', function(name, x, y)
+        self.particle:spawn(name, {position = {x = x, y = y}})
+    end)
 end
 
 function Level:update(dt)
     self.chrono:update(dt)
     self.camera_shake:update(dt)
+    self.particle:update(dt)
     self.player:update(dt)
     if self.itembox then self.itembox:update(dt) end
     for _, projectile in ipairs(self.projectiles) do projectile:update(dt) end
@@ -80,6 +87,7 @@ end
 
 function Level:draw()
     self.camera:attach()
+    self.particle:draw()
     self.player:draw()
     if self.itembox then self.itembox:draw() end
     for _, projectile in ipairs(self.projectiles) do projectile:draw() end
