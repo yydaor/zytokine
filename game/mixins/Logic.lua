@@ -14,7 +14,12 @@ Logic = {
                 self.hp = self.hp - damage 
                 beholder.trigger('DAMAGE POP', self.p.x, self.p.y, damage)
             end
-            if self.hp <= 0 then self.dead = true end
+            if self.hp <= 0 then 
+                self.dead = true 
+                if instanceOf(Enemy, self) then 
+                    beholder.trigger('PARTICLE SPAWN', 'EnemyDead', self.p.x, self.p.y) 
+                end
+            end
         end)
 
         beholder.observe('HIT RED' .. self.id, function()

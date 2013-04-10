@@ -74,7 +74,7 @@ function Level:initialize(name)
                                    wh = {w = proj.w, h = proj.h}})
     end)
 
-    beholder.observe('ITEMGET PARTICLE SPAWN', function(name, x, y)
+    beholder.observe('PARTICLE SPAWN', function(name, x, y)
         self.particle:spawn(name, {position = {x = x, y = y}})
     end)
 end
