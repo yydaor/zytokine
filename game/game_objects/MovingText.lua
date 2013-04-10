@@ -18,7 +18,7 @@ function MovingText:initialize(chrono, parent_id, x, y, text)
     beholder.observe('DAMAGE MOVE TEXT' .. self.parent_id, function(x, y)
         self.p = Vector(x, y)
         main_tween(1, self.p, {y = y - 32}, 'outElastic')
-        self.chrono:after(0.8, function() beholder.trigger('REMOVE', self) end)
+        self.chrono:after(0.5, function() beholder.trigger('REMOVE', self) end)
     end)
 end
 

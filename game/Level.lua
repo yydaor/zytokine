@@ -47,10 +47,10 @@ function Level:initialize(name)
         table.insert(self.enemies, Enemy(self.chrono, self.world, x, y, direction))
     end)
 
-    beholder.observe('PROJECTILE ENEMY HIT', function(projectile, enemy)
+    beholder.observe('DAMAGE POP', function(x, y, damage)
         MovingText.UID = MovingText.UID + 1
-        table.insert(self.texts, MovingText(self.chrono, MovingText.UID, enemy.p.x, enemy.p.y, projectile.instant))
-        beholder.trigger('DAMAGE MOVE TEXT' .. MovingText.UID, enemy.p.x, enemy.p.y)
+        table.insert(self.texts, MovingText(self.chrono, MovingText.UID, x, y, damage))
+        beholder.trigger('DAMAGE MOVE TEXT' .. MovingText.UID, x, y)
     end)
 
     beholder.observe('CREATE ITEMBOX', function(box_type)
