@@ -36,6 +36,7 @@ function Projectile:collisionEnemy(enemy)
     if not table.contains(self.enemies_hit, enemy) then
         self:addEnemy(enemy)
         beholder.trigger('HIT RED' .. enemy.id)
+        beholder.trigger('PROJECTILE ENEMY HIT', self, enemy)
 
         if self.instant then
             beholder.trigger('HP DECREASE' .. enemy.id, self.instant)    

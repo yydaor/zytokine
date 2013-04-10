@@ -34,7 +34,7 @@ function Player:collisionItemBox(itembox)
     local next_attack = attack_list[n]
     self.current_attack = next_attack
     beholder.trigger('CREATE ITEMBOX', next_attack.name) 
-    beholder.trigger('MOVE TEXT' .. itembox.id, itembox.p.x, itembox.p.y)
+    beholder.trigger('ITEMGET MOVE TEXT' .. itembox.id, itembox.p.x, itembox.p.y)
     beholder.trigger('ITEMGET PARTICLE SPAWN', 'ItemGet', itembox.p.x, itembox.p.y)
 end
 

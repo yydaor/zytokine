@@ -10,7 +10,7 @@ Logic = {
         self.stunned_cid = nil
 
         beholder.observe('HP DECREASE' .. self.id, function(damage)
-            self.hp = self.hp - damage
+            if damage then self.hp = self.hp - damage end
             if self.hp <= 0 then self.dead = true end
         end)
 

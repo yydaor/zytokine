@@ -47,6 +47,12 @@ function Level:initialize(name)
         table.insert(self.enemies, Enemy(self.chrono, self.world, x, y, direction))
     end)
 
+    beholder.observe('PROJECTILE ENEMY HIT', function(projectile, enemy)
+        MovingText.UID = MovingText.UID + 1
+        table.insert(self.texts, MovingText(self.chrono, MovingText.UID, enemy.p.x, enemy.p.y, projectile.instant))
+        beholder.trigger('DAMAGE MOVE TEXT' .. MovingText.UID, enemy.p.x, enemy.p.y)
+    end)
+
     beholder.observe('CREATE ITEMBOX', function(box_type)
         local getItemboxId = function() if self.itembox then return self.itembox.id else return nil end end
         local id = getItemboxId()
