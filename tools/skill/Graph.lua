@@ -1,4 +1,5 @@
-require 'libraries/middleclass/middleclass'
+require 'middleclass/middleclass'
+require 'struct/struct'
 
 Graph = class('Graph')
 GraphNode = struct('name')
@@ -29,12 +30,17 @@ function Graph:getNodeIndexByName(name)
     end
 end
 
-function Graph:removeNode(name)
-    
+function Graph:removeNode(node_name)
+    local n = self:getNodeIndexByName(node_name)
+    table.remove(self.nodes, n)
+    for i = 1, #self.graph do table.remove(self.graph[i], n) end
+    table.remove(self.graph, n)
 end
 
 function Graph:removeEdge(node_name1, node_name2)
-    
+    local i, j = self:getNodeIndexByName(node_name1), self:getNodeIndexByName(node_name2)
+    self.graph[i][j] = nil 
+    self.graph[j][i] = nil
 end
 
 
