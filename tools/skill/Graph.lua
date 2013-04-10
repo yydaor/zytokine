@@ -1,5 +1,4 @@
 require 'middleclass/middleclass'
-require 'struct/struct'
 
 Graph = class('Graph')
 GraphNode = struct('name')
