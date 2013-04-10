@@ -1,7 +1,7 @@
 Logic = {
     logicInit = function(self, hp)
         self.hp = hp
-        self.hit = false
+        self.hit_red = false
         self.dotted = false
         self.dotted_cid = nil
         self.slowed = false
@@ -14,9 +14,9 @@ Logic = {
             if self.hp <= 0 then self.dead = true end
         end)
 
-        beholder.observe('HIT' .. self.id, function()
-            self.hit = true
-            self.chrono:after(0.1, function() self.hit = false end)
+        beholder.observe('HIT RED' .. self.id, function()
+            self.hit_red = true
+            self.chrono:after(0.1, function() self.hit_red = false end)
         end)
     end,
 

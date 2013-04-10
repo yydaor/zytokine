@@ -17,7 +17,7 @@ PhysicsRectangle = {
 
     physicsRectangleDraw = function(self)
         if self.blinking then alpha = 0 else alpha = 255 end
-        if self.hit then love.graphics.setColor(240, 64, 64, alpha)
+        if self.hit_red then love.graphics.setColor(240, 64, 64, alpha)
         else love.graphics.setColor(128, 128, 160, alpha) end
         love.graphics.polygon('line', unpack(table.map({self.body:getWorldPoints(self.shape:getPoints())},
             function(point) return point*scale end)))

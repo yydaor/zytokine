@@ -9,7 +9,7 @@ function MovingText:initialize(chrono, parent_id, x, y, text)
 
     beholder.observe('MOVE TEXT' .. self.parent_id, function(x, y)
         self.p = Vector(x, y)
-        main_tween(1, self.p, {y = y - 64}, 'outCubic')
+        main_tween(1, self.p, {y = y - 64}, 'outCirc')
         self.chrono:after(0.8, function() beholder.trigger('REMOVE', self) end)
     end)
 end

@@ -24,6 +24,7 @@ end
 
 function Player:collisionEnemy(enemy)
     if not self.invulnerable then
+        beholder.trigger('HIT' .. self.id)
         beholder.trigger('HP DECREASE' .. self.id, 1)
     end
 end
